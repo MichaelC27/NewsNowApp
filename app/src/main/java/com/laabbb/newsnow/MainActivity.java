@@ -1,10 +1,17 @@
 package com.laabbb.newsnow;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -31,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     StringRequest stringRequest;
     NoticiaAdaptador adaptador;
+    Toolbar toolbar;
     String url = "https://p3.qr4me.net/";
     ArrayList<Noticia> noticias = new ArrayList<>();
 
@@ -44,12 +52,14 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        toolbar = findViewById(R.id.toolbar);
 
         // Inicializar RecyclerView y adaptador
         initializeRecyclerView();
 
         // Obtener noticias del servidor
         fetchNoticias();
+        setSupportActionBar(toolbar);
     }
 
     // Método para inicializar el RecyclerView y su adaptador
@@ -100,5 +110,19 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menuinicio, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.btn_vizualizacion) {
+            Toast.makeText(this, "Ver", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
