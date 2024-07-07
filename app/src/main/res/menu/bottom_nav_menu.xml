@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/btn_noticias"
+        android:icon="@drawable/vizualizacion"
+        android:title="Noticias" />
+    <item
+        android:id="@+id/btn_favoritos"
+        android:icon="@drawable/favoritos"
+        android:title="Favoritos" />
+    <item
+        android:id="@+id/btn_usuario"
+        android:icon="@drawable/user"
+        android:title="Usuario" />
+</menu>

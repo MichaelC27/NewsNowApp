@@ -1,14 +1,10 @@
 package com.laabbb.newsnow;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.laabbb.newsnow.Adaptadores.NoticiaAdaptador;
 import com.laabbb.newsnow.Clases.Noticia;
 
@@ -32,6 +29,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recNoticia;
@@ -39,27 +38,50 @@ public class MainActivity extends AppCompatActivity {
     StringRequest stringRequest;
     NoticiaAdaptador adaptador;
     Toolbar toolbar;
+    BottomNavigationView bottomNavigationView;
     String url = "https://p3.qr4me.net/";
     ArrayList<Noticia> noticias = new ArrayList<>();
+    Map<Integer, Runnable> menuActions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        // Configuración de EdgeToEdge y ajustes de padding
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Inicialización del Toolbar
         toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Inicialización del BottomNavigationView y configuración del listener
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        // Inicialización del mapa de acciones
+        menuActions = new HashMap<>();
+        menuActions.put(R.id.btn_noticias, () -> Toast.makeText(MainActivity.this, "Noticias seleccionadas", Toast.LENGTH_SHORT).show());
+        menuActions.put(R.id.btn_favoritos, () -> Toast.makeText(MainActivity.this, "Favoritos seleccionados", Toast.LENGTH_SHORT).show());
+        menuActions.put(R.id.btn_usuario, () -> Toast.makeText(MainActivity.this, "Usuario seleccionado", Toast.LENGTH_SHORT).show());
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            Runnable action = menuActions.get(item.getItemId());
+            if (action != null) {
+                action.run();
+                return true;
+            }
+            return false;
+        });
 
         // Inicializar RecyclerView y adaptador
         initializeRecyclerView();
 
         // Obtener noticias del servidor
         fetchNoticias();
-        setSupportActionBar(toolbar);
     }
 
     // Método para inicializar el RecyclerView y su adaptador
@@ -67,9 +89,6 @@ public class MainActivity extends AppCompatActivity {
         recNoticia = findViewById(R.id.recNoticia);
         adaptador = new NoticiaAdaptador(this, noticias);
         recNoticia.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        // Si se quiere usar un layout diferente, descomentar una de las líneas siguientes
-        // recNoticia.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        // recNoticia.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
         recNoticia.setAdapter(adaptador);
     }
 
