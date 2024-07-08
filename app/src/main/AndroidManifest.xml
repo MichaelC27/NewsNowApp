@@ -15,6 +15,9 @@
         android:theme="@style/Theme.NewsNow"
         tools:targetApi="31">
         <activity
+            android:name=".Usuario"
+            android:exported="false" />
+        <activity
             android:name=".InfoNoticias"
             android:exported="false" />
         <activity
