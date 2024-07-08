@@ -15,7 +15,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.laabbb.newsnow.Clases.favoritos;
 import com.laabbb.newsnow.Clases.noticias;
+import com.laabbb.newsnow.Clases.usuario;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         // Inicialización del mapa de acciones
         menuActions = new HashMap<>();
         menuActions.put(R.id.btn_noticias, () -> loadFragment(new noticias()));
-        menuActions.put(R.id.btn_favoritos, () -> Toast.makeText(MainActivity.this, "Favoritos seleccionados", Toast.LENGTH_SHORT).show());
-        menuActions.put(R.id.btn_usuario, () -> Toast.makeText(MainActivity.this, "Usuario seleccionado", Toast.LENGTH_SHORT).show());
+        menuActions.put(R.id.btn_favoritos, () -> loadFragment(new favoritos()));
+        menuActions.put(R.id.btn_usuario, () -> loadFragment(new usuario()));
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             Runnable action = menuActions.get(item.getItemId());
