@@ -3,6 +3,8 @@ package com.laabbb.newsnow;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.laabbb.newsnow.Adaptadores.NoticiaAdaptador;
 import com.laabbb.newsnow.Clases.Noticia;
 
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     StringRequest stringRequest;
     NoticiaAdaptador adaptador;
     Toolbar toolbar;
+    ImageButton btn_lista, btn_tabla;
     BottomNavigationView bottomNavigationView;
     String url = "https://p3.qr4me.net/";
     ArrayList<Noticia> noticias = new ArrayList<>();
@@ -140,7 +145,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.btn_vizualizacion) {
-            Toast.makeText(this, "Ver", Toast.LENGTH_SHORT).show();
+            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
+            View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog, null);
+            bottomSheetDialog.setContentView(bottomSheetView);
+            // Configura los listeners para las opciones del BottomSheet
+            bottomSheetView.findViewById(R.id.btn_lista).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adaptador = new NoticiaAdaptador(MainActivity.this, noticias);
+                    recNoticia.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                    recNoticia.setAdapter(adaptador);
+                }
+            });
+
+            bottomSheetView.findViewById(R.id.btn_tabla).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adaptador = new NoticiaAdaptador(MainActivity.this, noticias);
+                    recNoticia.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    recNoticia.setAdapter(adaptador);
+                }
+            });
+            bottomSheetDialog.show();
         }
         return super.onOptionsItemSelected(item);
     }
