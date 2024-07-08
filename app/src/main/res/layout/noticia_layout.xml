@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="#FFFFFF"
+        tools:ignore="MissingConstraints">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardCornerRadius="10dp">
+            android:layout_height="200dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
 
             <ImageView
                 android:id="@+id/imgImagen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:cropToPadding="false"
                 app:srcCompat="@drawable/img2" />
         </androidx.cardview.widget.CardView>
@@ -28,49 +34,55 @@
             android:id="@+id/lblTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="10dp"
+            android:text="Título de la Noticia"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#333333" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
 
             <ImageView
                 android:id="@+id/imgIcono"
                 android:layout_width="30dp"
-                android:layout_height="match_parent"
+                android:layout_height="30dp"
                 app:srcCompat="@drawable/icon2" />
 
             <TextView
                 android:id="@+id/lblAutor"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="TextView" />
+                android:text="Autor de la Noticia"
+                android:textColor="#666666" />
 
             <ImageView
                 android:id="@+id/imgMegusta"
                 android:layout_width="30dp"
-                android:layout_height="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginEnd="5dp"
                 app:srcCompat="@drawable/like" />
 
             <TextView
                 android:id="@+id/lblMegusta"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="TextView" />
+                android:text="123"
+                android:textColor="#666666" />
 
             <ImageView
                 android:id="@+id/imgCompartir"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:srcCompat="?attr/actionModeShareDrawable" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                app:srcCompat="@drawable/vizualizacion" />
         </LinearLayout>
 
         <TextView
