@@ -37,7 +37,6 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
         holder.lblAutor.setText(lista.get(position).getAutor());
         holder.lblMegusta.setText(String.valueOf(lista.get(position).getMegusta()));
         Glide.with(context).load(lista.get(position).getImagen()).into(holder.imgImagen);
-        //holder.imgIcono.setImageDrawable(lista.get(position).getIcono());
 
         holder.imgMegusta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +65,7 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
     public static class ViewHolder extends  RecyclerView.ViewHolder{
 
         TextView lblTitulo, lblAutor, lblMegusta;
-        ImageView imgImagen, imgIcono, imgMegusta, imgCompartir;
+        ImageView imgImagen, imgMegusta, imgCompartir;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -75,7 +74,6 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
             lblMegusta = itemView.findViewById(R.id.lblMegusta);
 
             imgImagen = itemView.findViewById(R.id.imgImagen);
-            imgIcono = itemView.findViewById(R.id.imgIcono);
             imgMegusta = itemView.findViewById(R.id.imgMegusta);
             imgCompartir = itemView.findViewById(R.id.imgCompartir);
         }

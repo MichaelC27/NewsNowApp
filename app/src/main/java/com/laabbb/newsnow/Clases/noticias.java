@@ -7,20 +7,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuHost;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.core.view.MenuHost;
-import androidx.core.view.MenuProvider;
-import androidx.lifecycle.Lifecycle;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,7 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class noticias extends Fragment implements MenuProvider {
+public class noticias extends Fragment implements MenuProvider{
 
     private RecyclerView recNoticia;
     private RequestQueue requestQueue;
@@ -47,10 +45,6 @@ public class noticias extends Fragment implements MenuProvider {
     private ArrayList<Noticia> noticias = new ArrayList<>();
     private String url = "https://p3.qr4me.net/";
     private Toolbar toolbar;
-
-    public noticias() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,9 +86,7 @@ public class noticias extends Fragment implements MenuProvider {
             bottomSheetView.findViewById(R.id.btn_lista).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    adaptador = new NoticiaAdaptador(getActivity(), noticias);
                     recNoticia.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-                    recNoticia.setAdapter(adaptador);
                     bottomSheetDialog.dismiss();
                 }
             });
@@ -102,9 +94,7 @@ public class noticias extends Fragment implements MenuProvider {
             bottomSheetView.findViewById(R.id.btn_tabla).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    adaptador = new NoticiaAdaptador(getActivity(), noticias);
                     recNoticia.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    recNoticia.setAdapter(adaptador);
                     bottomSheetDialog.dismiss();
                 }
             });
@@ -124,7 +114,7 @@ public class noticias extends Fragment implements MenuProvider {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                // Manejar el error de la petición aquí
+                Toast.makeText(getActivity(), "Error al obtener noticias", Toast.LENGTH_SHORT).show();
             }
         });
         requestQueue.add(stringRequest);
@@ -139,10 +129,9 @@ public class noticias extends Fragment implements MenuProvider {
                         jsonObject.getString("id"),
                         jsonObject.getString("titulo"),
                         jsonObject.getString("autor"),
-                        "",
+                        jsonObject.getString("detalle"),
                         0,
-                        jsonObject.getString("imagen"),
-                        jsonObject.getString("icono")
+                        jsonObject.getString("imagen")
                 ));
             }
             adaptador.notifyDataSetChanged(); // Notificar al adaptador de los cambios en los datos

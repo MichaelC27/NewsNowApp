@@ -88,24 +88,20 @@ public class InfoNoticias extends AppCompatActivity {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String noticiaId = jsonObject.getString("id");
                 if (noticiaId.equals(idFiltro)) {
-                    String detalles = "";
-                    if (jsonObject.has("detalles")) {
-                        detalles = jsonObject.getString("detalles");
-                    }
                     Noticia noticia = new Noticia(
                             noticiaId,
                             jsonObject.getString("titulo"),
                             jsonObject.getString("autor"),
-                            detalles,
+                            jsonObject.getString("detalle"),
                             0,
-                            jsonObject.getString("imagen"),
-                            jsonObject.getString("icono")
+                            jsonObject.getString("imagen")
+
                     );
                     noticias.add(noticia);
 
                     // Asignar detalles a los elementos UI
                     lbl_info_titulo.setText(noticia.getTitulo());
-                    lbl_detalles.setText(noticia.getDetalles());
+                    lbl_detalles.setText(noticia.getDetalle());
                     // Cargar imagen usando Glide (u otra biblioteca de tu elección)
                     Glide.with(this).load(noticia.getImagen()).into(img_noticia);
                     break; // Salir del bucle una vez que se encuentra la noticia

@@ -5,22 +5,21 @@ public class Noticia {
     private String id;
     private String titulo;
     private String autor;
-    private String detalles;
+    private String detalle;
     private int megusta;
     private String imagen;
-    private String icono;
 
     public Noticia() {
     }
 
-    public Noticia(String id, String titulo, String autor, String detalles, int megusta, String imagen, String icono) {
+    public Noticia(String id, String titulo, String autor, String detalle, int megusta, String imagen) {
         this.id  = id;
         this.titulo = titulo;
         this.autor = autor;
-        this.detalles = detalles;
+        this.detalle = detalle;
         this.megusta = megusta;
         this.imagen = imagen;
-        this.icono = icono;
+
     }
 
     public String getId() {
@@ -47,12 +46,12 @@ public class Noticia {
         this.autor = autor;
     }
 
-    public String getDetalles() {
-        return detalles;
+    public String getDetalle() {
+        return detalle;
     }
 
-    public void setDetalles(String detalles) {
-        this.detalles = detalles;
+    public void setDetalle(String detalles) {
+        this.detalle = detalles;
     }
 
     public int getMegusta() {
@@ -71,11 +70,4 @@ public class Noticia {
         this.imagen = imagen;
     }
 
-    public String getIcono() {
-        return icono;
-    }
-
-    public void setIcono(String icono) {
-        this.icono = icono;
-    }
 }
