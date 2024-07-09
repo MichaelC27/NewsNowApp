@@ -93,7 +93,7 @@ public class InfoNoticias extends AppCompatActivity {
                             jsonObject.getString("titulo"),
                             jsonObject.getString("autor"),
                             jsonObject.getString("detalle"),
-                            0,
+                            false,
                             jsonObject.getString("imagen")
 
                     );

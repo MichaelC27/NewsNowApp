@@ -35,18 +35,36 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
     public void onBindViewHolder(@NonNull NoticiaAdaptador.ViewHolder holder, int position) {
         holder.lblTitulo.setText( lista.get(position).getTitulo()  );
         holder.lblAutor.setText(lista.get(position).getAutor());
-        holder.lblMegusta.setText(String.valueOf(lista.get(position).getMegusta()));
+        Boolean bt_like = lista.get(position).getMegusta();
         Glide.with(context).load(lista.get(position).getImagen()).into(holder.imgImagen);
 
         holder.imgMegusta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int cantidad = Integer.parseInt(holder.lblMegusta.getText().toString());
-                cantidad++;
-                holder.lblMegusta.setText(String.valueOf(cantidad));
-            }
-        });
+                // Obtenemos el estado actual de "me gusta" desde el modelo Noticia
+                boolean isLiked = lista.get(position).getMegusta();
 
+                // Invertimos el estado
+                isLiked = !isLiked;
+
+                // Actualizamos el estado en el modelo Noticia
+                lista.get(position).setMegusta(isLiked);
+
+                // Actualizamos la imagen según el nuevo estado de "me gusta"
+                if (isLiked) {
+                    holder.imgMegusta.setImageResource(R.drawable.heart_final);
+                } else {
+                    holder.imgMegusta.setImageResource(R.drawable.heart_inicial);
+                }
+            }
+
+        });
+        // Configuramos la imagen según el estado actual de "me gusta" al cargar la vista
+        if (bt_like) {
+            holder.imgMegusta.setImageResource(R.drawable.heart_final);
+        } else {
+            holder.imgMegusta.setImageResource(R.drawable.heart_inicial);
+        }
         holder.imgImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,18 +82,16 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
 
     public static class ViewHolder extends  RecyclerView.ViewHolder{
 
-        TextView lblTitulo, lblAutor, lblMegusta;
+        TextView lblTitulo, lblAutor;
         ImageView imgImagen, imgMegusta, imgCompartir;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             lblTitulo = itemView.findViewById(R.id.lblTitulo);
             lblAutor = itemView.findViewById(R.id.lblAutor);
-            lblMegusta = itemView.findViewById(R.id.lblMegusta);
 
             imgImagen = itemView.findViewById(R.id.imgImagen);
             imgMegusta = itemView.findViewById(R.id.imgMegusta);
-            imgCompartir = itemView.findViewById(R.id.imgCompartir);
         }
     }
 }

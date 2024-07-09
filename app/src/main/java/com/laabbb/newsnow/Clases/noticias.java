@@ -130,7 +130,7 @@ public class noticias extends Fragment implements MenuProvider{
                         jsonObject.getString("titulo"),
                         jsonObject.getString("autor"),
                         jsonObject.getString("detalle"),
-                        0,
+                        false,
                         jsonObject.getString("imagen")
                 ));
             }

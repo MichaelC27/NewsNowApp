@@ -6,13 +6,13 @@ public class Noticia {
     private String titulo;
     private String autor;
     private String detalle;
-    private int megusta;
+    private boolean megusta;
     private String imagen;
 
     public Noticia() {
     }
 
-    public Noticia(String id, String titulo, String autor, String detalle, int megusta, String imagen) {
+    public Noticia(String id, String titulo, String autor, String detalle, boolean megusta, String imagen) {
         this.id  = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -54,11 +54,11 @@ public class Noticia {
         this.detalle = detalles;
     }
 
-    public int getMegusta() {
+    public boolean getMegusta() {
         return megusta;
     }
 
-    public void setMegusta(int megusta) {
+    public void setMegusta(boolean megusta) {
         this.megusta = megusta;
     }
 
