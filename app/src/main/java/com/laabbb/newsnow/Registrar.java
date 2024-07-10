@@ -22,7 +22,7 @@ public class Registrar extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        EdgeToEdge.enable(this); // Habilitar EdgeToEdge para manejar barras de sistema
         setContentView(R.layout.activity_registrar);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -30,6 +30,7 @@ public class Registrar extends AppCompatActivity {
             return insets;
         });
 
+        // Inicialización de componentes de la interfaz de usuario
         txtUsuario = findViewById(R.id.txt_user);
         txtPassword = findViewById(R.id.txt_password);
         txtNombre = findViewById(R.id.txt_nombre);
@@ -37,6 +38,7 @@ public class Registrar extends AppCompatActivity {
         txtEmail = findViewById(R.id.txt_email);
         btn_registrar = findViewById(R.id.btn_registrar);
 
+        // Configuración del OnClickListener para el botón de registro
         btn_registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,6 +56,7 @@ public class Registrar extends AppCompatActivity {
         });
     }
 
+    // Método para validar que todos los campos estén completos
     private boolean validarCampos() {
         if (txtUsuario.getText().toString().isEmpty() ||
                 txtPassword.getText().toString().isEmpty() ||
@@ -66,11 +69,13 @@ public class Registrar extends AppCompatActivity {
         return true;
     }
 
+    // Método para verificar si el usuario ya está registrado en la base de datos
     private boolean usuarioNoExiste(String usuario) {
         C_DB_Noticias db = new C_DB_Noticias(Registrar.this);
         return !db.verificarUsuarioExistente(usuario);
     }
 
+    // Método para registrar un nuevo usuario en la base de datos
     private void registrarUsuario() {
         C_DB_Noticias obj = new C_DB_Noticias(Registrar.this);
         obj.setUsuario(txtUsuario.getText().toString());
@@ -89,6 +94,7 @@ public class Registrar extends AppCompatActivity {
         }
     }
 
+    // Método para abrir la actividad de login después del registro exitoso
     private void abrirLogin() {
         Intent intent = new Intent(Registrar.this, Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Limpiar la pila de actividades

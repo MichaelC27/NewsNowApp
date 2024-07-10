@@ -12,8 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuHost;
-import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,7 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class noticias extends Fragment implements MenuProvider{
+public class noticias extends Fragment {
 
     private RecyclerView recNoticia;
     private RequestQueue requestQueue;
@@ -64,25 +62,28 @@ public class noticias extends Fragment implements MenuProvider{
         // Obtener noticias del servidor
         fetchNoticias();
 
-        // Añadir el MenuProvider al MenuHost
-        MenuHost menuHost = requireActivity();
-        menuHost.addMenuProvider(this, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+        // Habilitar opciones de menú
+        setHasOptionsMenu(true);
 
         return view;
     }
 
+    // Inflar el menú de opciones en la barra de herramientas
     @Override
-    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.menuinicio, menu);
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menuinicio, menu);
     }
 
+    // Manejar eventos de selección de elementos del menú
     @Override
-    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.btn_vizualizacion) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.btn_vizualizacion) {
+            // Mostrar un dialogo de hoja inferior para cambiar la visualización del RecyclerView
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity());
             View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog, null);
             bottomSheetDialog.setContentView(bottomSheetView);
-            // Configura los listeners para las opciones del BottomSheet
+
+            // Configurar los listeners para las opciones del BottomSheet
             bottomSheetView.findViewById(R.id.btn_lista).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,12 +99,14 @@ public class noticias extends Fragment implements MenuProvider{
                     bottomSheetDialog.dismiss();
                 }
             });
+
             bottomSheetDialog.show();
             return true;
         }
         return false;
     }
 
+    // Método para obtener noticias del servidor usando Volley
     private void fetchNoticias() {
         requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -120,6 +123,7 @@ public class noticias extends Fragment implements MenuProvider{
         requestQueue.add(stringRequest);
     }
 
+    // Método para parsear el JSON de las noticias recibidas del servidor
     private void parseNoticias(String response) {
         try {
             JSONArray jsonArray = new JSONArray(response);

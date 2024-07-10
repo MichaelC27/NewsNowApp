@@ -32,43 +32,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Configuración de EdgeToEdge y ajustes de padding
+        // Configuración de EdgeToEdge y ajustes de padding para manejar barras de sistema
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-
-        // Inicialización del BottomNavigationView y configuración del listener
+        // Inicialización del BottomNavigationView y configuración del listener para los ítems
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        // Inicialización del mapa de acciones
+        // Inicialización del mapa de acciones para asociar ítems del menú con fragmentos
         menuActions = new HashMap<>();
         menuActions.put(R.id.btn_noticias, () -> loadFragment(new noticias()));
         menuActions.put(R.id.btn_favoritos, () -> loadFragment(new favoritos()));
         menuActions.put(R.id.btn_usuario, () -> loadFragment(new usuario()));
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            // Obtener la acción asociada al ítem seleccionado y cargar el fragmento correspondiente
             Runnable action = menuActions.get(item.getItemId());
             if (action != null) {
                 action.run();
-                return true;
+                return true; // Indicar que se ha manejado la selección del ítem
             }
-            return false;
+            return false; // Indicar que no se ha manejado la selección del ítem
         });
 
-        // Cargar fragmento inicial
+        // Cargar el fragmento inicial al iniciar la actividad
         if (savedInstanceState == null) {
-            loadFragment(new noticias());
+            loadFragment(new noticias()); // Fragmento inicial: noticias
         }
     }
 
+    // Método para cargar un fragmento en el contenedor principal
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        transaction.replace(R.id.fragment_container, fragment); // Reemplazar el contenido del contenedor con el fragmento dado
+        transaction.addToBackStack(null); // Agregar la transacción al back stack para permitir navegación hacia atrás
+        transaction.commit(); // Confirmar la transacción
     }
 
 }

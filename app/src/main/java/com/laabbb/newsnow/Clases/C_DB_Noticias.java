@@ -15,14 +15,17 @@ public class C_DB_Noticias {
     private SQLiteDatabase db;
     private String BaseDatos = "NewsNow.db";
 
+    // Constructor vacío
     public C_DB_Noticias() {
     }
 
+    // Constructor que inicializa la base de datos usando la actividad proporcionada
     public C_DB_Noticias(Activity activity2) {
         admin = new NewsHelperSQLite(activity2, BaseDatos, null, 1);
         db = admin.getWritableDatabase();
     }
 
+    // Constructor que inicializa con datos de usuario
     public C_DB_Noticias(String usuario, String password, String nombre, String apellido, String email) {
         this.usuario = usuario;
         this.password = password;
@@ -31,6 +34,7 @@ public class C_DB_Noticias {
         this.email = email;
     }
 
+    // Getters y setters para los campos de usuario
     public String getUsuario() {
         return usuario;
     }
@@ -71,6 +75,7 @@ public class C_DB_Noticias {
         this.email = email;
     }
 
+    // Método para insertar un nuevo usuario en la base de datos
     public boolean insertar() {
         ContentValues registro = new ContentValues();
         registro.put("username", this.usuario);
@@ -80,9 +85,10 @@ public class C_DB_Noticias {
         registro.put("email", this.email);
         long result = db.insert("users", null, registro);
         db.close();
-        return result != -1; // Return true if insertion is successful
+        return result != -1; // Retorna true si la inserción es exitosa
     }
 
+    // Método para verificar si un usuario ya existe en la base de datos
     public boolean verificarUsuarioExistente(String usuario) {
         SQLiteDatabase db = admin.getReadableDatabase();
         String[] projection = { "username" };
@@ -105,6 +111,7 @@ public class C_DB_Noticias {
         return existeUsuario;
     }
 
+    // Método para verificar la autenticación de un usuario basado en usuario y contraseña
     public boolean verificarUsuario(String usuario, String password) {
         SQLiteDatabase db = admin.getReadableDatabase();
         String[] projection = {
@@ -130,6 +137,7 @@ public class C_DB_Noticias {
         return existeUsuario;
     }
 
+    // Método para seleccionar y devolver los datos de un usuario basado en el nombre de usuario
     public C_DB_Noticias seleccionarDatosUsuario(String username) {
         SQLiteDatabase db = admin.getReadableDatabase();
         String[] projection = {

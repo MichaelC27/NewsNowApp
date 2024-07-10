@@ -1,4 +1,5 @@
 package com.laabbb.newsnow.Adaptadores;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -6,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.laabbb.newsnow.*;
 import com.laabbb.newsnow.Clases.Noticia;
@@ -19,6 +21,7 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
     Context context;
     ArrayList<Noticia> lista;
 
+    // Constructor para inicializar el adaptador con contexto y lista de noticias
     public NoticiaAdaptador(Context context, ArrayList<Noticia> lista) {
         this.context = context;
         this.lista = lista;
@@ -27,48 +30,54 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
     @NonNull
     @Override
     public NoticiaAdaptador.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflar el diseño de la vista de la noticia
         View view = LayoutInflater.from(context).inflate(R.layout.noticia_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NoticiaAdaptador.ViewHolder holder, int position) {
-        holder.lblTitulo.setText( lista.get(position).getTitulo()  );
+        // Asignar los datos de la noticia en la posición actual al ViewHolder
+        holder.lblTitulo.setText(lista.get(position).getTitulo());
         holder.lblAutor.setText(lista.get(position).getAutor());
         Boolean bt_like = lista.get(position).getMegusta();
         Glide.with(context).load(lista.get(position).getImagen()).into(holder.imgImagen);
 
+        // Configurar el botón de "Me gusta"
         holder.imgMegusta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Obtenemos el estado actual de "me gusta" desde el modelo Noticia
+                // Obtener el estado actual de "me gusta" desde el modelo de Noticia
                 boolean isLiked = lista.get(position).getMegusta();
 
-                // Invertimos el estado
+                // Invertir el estado
                 isLiked = !isLiked;
 
-                // Actualizamos el estado en el modelo Noticia
+                // Actualizar el estado en el modelo de Noticia
                 lista.get(position).setMegusta(isLiked);
 
-                // Actualizamos la imagen según el nuevo estado de "me gusta"
+                // Actualizar la imagen según el nuevo estado de "me gusta"
                 if (isLiked) {
                     holder.imgMegusta.setImageResource(R.drawable.heart_final);
                 } else {
                     holder.imgMegusta.setImageResource(R.drawable.heart_inicial);
                 }
             }
-
         });
-        // Configuramos la imagen según el estado actual de "me gusta" al cargar la vista
+
+        // Configurar la imagen según el estado actual de "me gusta" al cargar la vista
         if (bt_like) {
             holder.imgMegusta.setImageResource(R.drawable.heart_final);
         } else {
             holder.imgMegusta.setImageResource(R.drawable.heart_inicial);
         }
+
+        // Configurar el clic en la imagen de la noticia para abrir la actividad de detalles de la noticia
         holder.imgImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent  intent = new Intent(context, InfoNoticias.class);
+                // Crear un intent para abrir la actividad de detalles de la noticia
+                Intent intent = new Intent(context, InfoNoticias.class);
                 intent.putExtra("id", lista.get(position).getId());
                 context.startActivity(intent);
             }
@@ -77,19 +86,21 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
 
     @Override
     public int getItemCount() {
+        // Devolver el número total de elementos en la lista de noticias
         return lista.size();
     }
 
-    public static class ViewHolder extends  RecyclerView.ViewHolder{
-
+    // ViewHolder para contener las vistas de los elementos de la lista
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView lblTitulo, lblAutor;
         ImageView imgImagen, imgMegusta, imgCompartir;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            // Inicializar vistas del diseño de la noticia
             lblTitulo = itemView.findViewById(R.id.lblTitulo);
             lblAutor = itemView.findViewById(R.id.lblAutor);
-
             imgImagen = itemView.findViewById(R.id.imgImagen);
             imgMegusta = itemView.findViewById(R.id.imgMegusta);
         }
