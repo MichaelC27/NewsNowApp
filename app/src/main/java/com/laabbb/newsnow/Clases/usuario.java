@@ -1,14 +1,15 @@
 package com.laabbb.newsnow.Clases;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.laabbb.newsnow.R;
+import com.laabbb.newsnow.Registrar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +17,7 @@ import com.laabbb.newsnow.R;
  * create an instance of this fragment.
  */
 public class usuario extends Fragment {
-
+    private TextView lbl_User, lbl_Nombre, lbl_Apellido, lbl_Email;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,14 +31,6 @@ public class usuario extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment usuario.
-     */
     // TODO: Rename and change types and number of parameters
     public static usuario newInstance(String param1, String param2) {
         usuario fragment = new usuario();
@@ -60,7 +53,25 @@ public class usuario extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_usuario, container, false);
+        View view = inflater.inflate(R.layout.fragment_usuario, container, false);
+        lbl_User = view.findViewById(R.id.lbl_username);
+        lbl_Nombre = view.findViewById(R.id.lbl_nombre);
+        lbl_Apellido = view.findViewById(R.id.lbl_apellido);
+        lbl_Email = view.findViewById(R.id.lbl_email);
+
+        // Obtener el nombre de usuario de la sesión actual
+        String username = SessionManager.getInstance().getUsername();
+        C_DB_Noticias obj = new C_DB_Noticias(this.getActivity());
+        // Llamar al método para seleccionar los datos del usuario desde la base de datos
+        C_DB_Noticias usuario = obj.seleccionarDatosUsuario(username);
+
+        // Actualizar las vistas con los datos del usuario
+        if (usuario != null) {
+            lbl_User.setText(usuario.getUsuario());
+            lbl_Nombre.setText(usuario.getNombre());
+            lbl_Apellido.setText(usuario.getApellido());
+            lbl_Email.setText(usuario.getEmail());
+        }
+        return view;
     }
 }

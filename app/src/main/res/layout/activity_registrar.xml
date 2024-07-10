@@ -24,7 +24,7 @@
             android:src="@drawable/logo" />
 
         <EditText
-            android:id="@+id/first_name"
+            android:id="@+id/txt_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -34,7 +34,7 @@
             android:padding="16dp" />
 
         <EditText
-            android:id="@+id/last_name"
+            android:id="@+id/txt_apellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -44,7 +44,7 @@
             android:padding="16dp" />
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/txt_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -54,7 +54,7 @@
             android:padding="16dp" />
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/txt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -64,7 +64,7 @@
             android:padding="16dp" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/txt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -74,7 +74,7 @@
             android:padding="16dp" />
 
         <Button
-            android:id="@+id/register_button"
+            android:id="@+id/btn_registrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

@@ -14,17 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsNow"
         tools:targetApi="31">
-        <activity
-            android:name=".Registrar"
-            android:exported="false" />
+
+        <!-- Actividad principal: Login -->
         <activity
             android:name=".Login"
-            android:exported="false" />
-        <activity
-            android:name=".InfoNoticias"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +25,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Otras actividades -->
+        <activity
+            android:name=".Registrar"
+            android:exported="false" />
+        <activity
+            android:name=".InfoNoticias"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
