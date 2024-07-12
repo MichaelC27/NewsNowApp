@@ -1,5 +1,6 @@
 package com.laabbb.newsnow.Adaptadores;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -7,24 +8,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.laabbb.newsnow.*;
+import com.laabbb.newsnow.Clases.C_DB_Likes;
+import com.laabbb.newsnow.Clases.C_DB_Noticias;
 import com.laabbb.newsnow.Clases.Noticia;
+import com.laabbb.newsnow.Clases.SessionManager;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.ViewHolder> {
     Context context;
     ArrayList<Noticia> lista;
+    C_DB_Likes dbLikes;
+    String username; // Usuario actual
+    Set<String> likedIds; // Set para almacenar los IDs
 
     // Constructor para inicializar el adaptador con contexto y lista de noticias
     public NoticiaAdaptador(Context context, ArrayList<Noticia> lista) {
         this.context = context;
         this.lista = lista;
+        dbLikes = new C_DB_Likes((Activity) context);
+        username = SessionManager.getInstance().getUsername();
+        likedIds = dbLikes.getLikedNewsIds(username); // Cargar los IDs guardados en SQLite
     }
 
     @NonNull
@@ -59,14 +71,19 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
                 // Actualizar la imagen según el nuevo estado de "me gusta"
                 if (isLiked) {
                     holder.imgMegusta.setImageResource(R.drawable.heart_final);
+                    dbLikes.addLike(username, lista.get(position).getId()); // Agregar el ID a la base de datos
+                    likedIds.add(lista.get(position).getId()); // Actualizar el Set local
+                    Toast.makeText(context, "Id" + lista.get(position).getId(), Toast.LENGTH_SHORT).show();
                 } else {
                     holder.imgMegusta.setImageResource(R.drawable.heart_inicial);
+                    dbLikes.removeLike(username, lista.get(position).getId()); // Eliminar el ID de la base de datos
+                    likedIds.remove(lista.get(position).getId()); // Actualizar el Set local
                 }
             }
         });
 
         // Configurar la imagen según el estado actual de "me gusta" al cargar la vista
-        if (bt_like) {
+        if (bt_like || likedIds.contains(lista.get(position).getId())) {
             holder.imgMegusta.setImageResource(R.drawable.heart_final);
         } else {
             holder.imgMegusta.setImageResource(R.drawable.heart_inicial);
@@ -93,7 +110,7 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
     // ViewHolder para contener las vistas de los elementos de la lista
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView lblTitulo, lblAutor;
-        ImageView imgImagen, imgMegusta, imgCompartir;
+        ImageView imgImagen, imgMegusta;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

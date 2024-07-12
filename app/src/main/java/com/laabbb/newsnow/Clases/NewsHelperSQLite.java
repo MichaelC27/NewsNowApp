@@ -21,10 +21,10 @@ public class NewsHelperSQLite extends SQLiteOpenHelper {
                 "email TEXT)");
 
         // Crear tabla de favoritos
-        sqLiteDatabase.execSQL("CREATE TABLE favorites (" +
+        sqLiteDatabase.execSQL("CREATE TABLE likes (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT, " +
-                "news_id INTEGER, " +
+                "news_id TEXT, " +
                 "FOREIGN KEY(username) REFERENCES users(username))");
     }
 
