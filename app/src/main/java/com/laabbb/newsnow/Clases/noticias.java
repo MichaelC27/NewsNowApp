@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -92,13 +93,14 @@ public class noticias extends Fragment {
                 }
             });
 
-            bottomSheetView.findViewById(R.id.btn_tabla).setOnClickListener(new View.OnClickListener() {
+           bottomSheetView.findViewById(R.id.btn_tabla).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     recNoticia.setLayoutManager(new LinearLayoutManager(getActivity()));
                     bottomSheetDialog.dismiss();
                 }
             });
+
 
             bottomSheetDialog.show();
             return true;

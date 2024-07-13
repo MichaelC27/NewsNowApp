@@ -7,7 +7,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,13 +36,14 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class favoritos extends Fragment {
-    private TextView lbl_favoritos;
+
     private RecyclerView recFavoritos;
     private RequestQueue requestQueue;
     private LikesAdaptador adaptador;
     private ArrayList<Noticia> favoritos = new ArrayList<>();
     private String url = "https://p3.qr4me.net/";
     private Toolbar toolbar;
+    private SwipeRefreshLayout swipe;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -79,8 +80,8 @@ public class favoritos extends Fragment {
         // Inicializar Toolbar
         toolbar = view.findViewById(R.id.toolbar3);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        swipe = view.findViewById(R.id.swipe);
 
-        lbl_favoritos = view.findViewById(R.id.lbl_favoritos);
         // Inicializar RecyclerView y adaptador
         recFavoritos = view.findViewById(R.id.recFavoritos);
         adaptador = new LikesAdaptador(getActivity(), favoritos);
@@ -89,8 +90,12 @@ public class favoritos extends Fragment {
 
         // Habilitar opciones de menú
         setHasOptionsMenu(true);
+
         // Obtener noticias del servidor
         fetchNoticias();
+
+        // Configurar SwipeRefreshLayout
+        configSwipe();
 
         return view;
     }
@@ -133,6 +138,16 @@ public class favoritos extends Fragment {
         return false;
     }
 
+    public void configSwipe() {
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Obtener noticias del servidor
+                fetchNoticias();
+            }
+        });
+    }
+
     // Método para obtener noticias del servidor usando Volley
     private void fetchNoticias() {
         requestQueue = Volley.newRequestQueue(getActivity());
@@ -140,11 +155,13 @@ public class favoritos extends Fragment {
             @Override
             public void onResponse(String response) {
                 parseNoticias(response);
+                swipe.setRefreshing(false); // Detener el SwipeRefreshLayout
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Toast.makeText(getActivity(), "Error al obtener noticias", Toast.LENGTH_SHORT).show();
+                swipe.setRefreshing(false); // Detener el SwipeRefreshLayout en caso de error
             }
         });
         requestQueue.add(stringRequest);
