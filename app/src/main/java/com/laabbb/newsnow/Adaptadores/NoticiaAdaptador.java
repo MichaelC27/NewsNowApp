@@ -3,6 +3,7 @@ package com.laabbb.newsnow.Adaptadores;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,21 +50,33 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
 
     @Override
     public void onBindViewHolder(@NonNull NoticiaAdaptador.ViewHolder holder, int position) {
+
         // Asignar los datos de la noticia en la posición actual al ViewHolder
         holder.lblTitulo.setText(lista.get(position).getTitulo());
         holder.lblAutor.setText(lista.get(position).getAutor());
-        Boolean bt_like = lista.get(position).getMegusta();
         Glide.with(context).load(lista.get(position).getImagen()).into(holder.imgImagen);
+
+        // Obtener el estado actual de "me gusta" desde el modelo de Noticia
+        boolean isLiked = lista.get(position).getMegusta();
+
+        // Configurar la imagen según el estado actual de "me gusta" al cargar la vista
+        if (isLiked || likedIds.contains(lista.get(position).getId())) {
+            holder.imgMegusta.setImageResource(R.drawable.heart_final);
+
+        } else {
+            holder.imgMegusta.setImageResource(R.drawable.heart_inicial);
+        }
 
         // Configurar el botón de "Me gusta"
         holder.imgMegusta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Obtener el estado actual de "me gusta" desde el modelo de Noticia
-                boolean isLiked = lista.get(position).getMegusta();
 
+                // Obtener el estado actual de "me gusta" desde el modelo de Noticia
+                 boolean isLiked = lista.get(position).getMegusta();
                 // Invertir el estado
                 isLiked = !isLiked;
+
 
                 // Actualizar el estado en el modelo de Noticia
                 lista.get(position).setMegusta(isLiked);
@@ -73,21 +86,18 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
                     holder.imgMegusta.setImageResource(R.drawable.heart_final);
                     dbLikes.addLike(username, lista.get(position).getId()); // Agregar el ID a la base de datos
                     likedIds.add(lista.get(position).getId()); // Actualizar el Set local
-                    Toast.makeText(context, "Id" + lista.get(position).getId(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Id Favoritos" + lista.get(position).getId(), Toast.LENGTH_SHORT).show();
+
+
                 } else {
                     holder.imgMegusta.setImageResource(R.drawable.heart_inicial);
                     dbLikes.removeLike(username, lista.get(position).getId()); // Eliminar el ID de la base de datos
                     likedIds.remove(lista.get(position).getId()); // Actualizar el Set local
+                    Toast.makeText(context, "Id No FAvoritos" + lista.get(position).getId(), Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
-
-        // Configurar la imagen según el estado actual de "me gusta" al cargar la vista
-        if (bt_like || likedIds.contains(lista.get(position).getId())) {
-            holder.imgMegusta.setImageResource(R.drawable.heart_final);
-        } else {
-            holder.imgMegusta.setImageResource(R.drawable.heart_inicial);
-        }
 
         // Configurar el clic en la imagen de la noticia para abrir la actividad de detalles de la noticia
         holder.imgImagen.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +110,7 @@ public class NoticiaAdaptador extends RecyclerView.Adapter<NoticiaAdaptador.View
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
