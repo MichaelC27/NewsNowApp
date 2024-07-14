@@ -12,30 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/my_primary"
-        android:alpha="0.7"/>
+        android:alpha="0.7">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="28dp">
-
-        <ImageView
-            android:layout_width="286dp"
-            android:layout_height="157dp"
-            android:src="@drawable/logo" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="NEWS NOW"
-            android:textColor="@color/white"
-            android:textSize="32sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"

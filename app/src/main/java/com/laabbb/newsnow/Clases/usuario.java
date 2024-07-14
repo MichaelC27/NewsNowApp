@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.laabbb.newsnow.R;
-import com.laabbb.newsnow.Registrar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,7 +53,7 @@ public class usuario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_usuario, container, false);
-        lbl_User = view.findViewById(R.id.lbl_username);
+        lbl_User = view.findViewById(R.id.lbl_user);
         lbl_Nombre = view.findViewById(R.id.lbl_nombre);
         lbl_Apellido = view.findViewById(R.id.lbl_apellido);
         lbl_Email = view.findViewById(R.id.lbl_email);
