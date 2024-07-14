@@ -54,7 +54,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 // Abrir la actividad de registro al hacer clic en "Registrar"
                 Intent intent = new Intent(Login.this, Registrar.class);
-                //startActivity(intent);
+                startActivity(intent);
             }
         });
 
