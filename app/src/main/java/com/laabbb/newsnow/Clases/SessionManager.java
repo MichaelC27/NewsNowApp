@@ -37,4 +37,12 @@ public class SessionManager {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    /**
+     * Método para cerrar la sesión del usuario.
+     * Limpia el nombre de usuario de la sesión.
+     */
+    public void logout() {
+        this.username = null;
+    }
 }
