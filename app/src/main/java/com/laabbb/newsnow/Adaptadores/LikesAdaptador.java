@@ -73,12 +73,12 @@ public class LikesAdaptador extends RecyclerView.Adapter<LikesAdaptador.ViewHold
                     holder.imgMegusta.setImageResource(R.drawable.heart_inicial);
                     dbLikes.removeLike(username, lista.get(position).getId()); // Eliminar el ID de la base de datos
                     likedIds.remove(lista.get(position).getId()); // Actualizar el Set local
-                    Toast.makeText(context, "Id No Favoritos: " + lista.get(position).getId(), Toast.LENGTH_SHORT).show();
+
                 } else {
                     holder.imgMegusta.setImageResource(R.drawable.heart_final);
                     dbLikes.addLike(username, lista.get(position).getId()); // Agregar el ID a la base de datos
                     likedIds.add(lista.get(position).getId()); // Actualizar el Set local
-                    Toast.makeText(context, "Id Favoritos: " + lista.get(position).getId(), Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

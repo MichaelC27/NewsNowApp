@@ -40,6 +40,7 @@ public class InfoNoticias extends AppCompatActivity {
     private TextView lbl_info_titulo, lbl_detalles;
     private ImageView img_noticia;
     Toolbar toolbar;
+    private Noticia noticiaActual; // Declaración de noticiaActual
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,7 @@ public class InfoNoticias extends AppCompatActivity {
                             jsonObject.getString("imagen")
                     );
                     noticias.add(noticia);
+                    noticiaActual = noticia; // Asignar la noticia actual
 
                     // Mostrar detalles de la noticia en los elementos UI correspondientes
                     lbl_info_titulo.setText(noticia.getTitulo());
@@ -136,10 +138,19 @@ public class InfoNoticias extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.btn_compartir) {
-            // Acción para compartir la noticia
-            Toast.makeText(this, "Compartir", Toast.LENGTH_SHORT).show();
+            if (noticiaActual != null) {
+                // Crear un Intent de compartir
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, noticiaActual.getTitulo());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, noticiaActual.getDetalle() + "\n\n" + noticiaActual.getImagen());
+
+                // Lanzar el Intent de compartir
+                startActivity(Intent.createChooser(shareIntent, "Compartir Noticia"));
+            } else {
+                Toast.makeText(this, "No hay noticia para compartir", Toast.LENGTH_SHORT).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
-
 }
